@@ -215,3 +215,18 @@ if st.button("✨ Reveal Auspicious Muhurat", use_container_width=True, type="pr
         st.balloons()
     else:
         st.warning("The divine timing is still unfolding. Try adjusting the planetary houses.")
+
+# -----------------------------------
+# FOOTER / COPYRIGHT
+# -----------------------------------
+st.markdown("---")
+st.markdown(
+    """
+    <div style="text-align: center; color: #9ca3af; font-size: 12px; font-family: 'Arial', sans-serif;">
+        <p>© 2026 Shubh Vivaah Predictor. All Rights Reserved.</p>
+        <p><i>Disclaimer: This application is based on traditional calculations and it is not always true. 
+        Life's journey is shaped by many stars; always follow your heart.</i></p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
