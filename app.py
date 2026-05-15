@@ -1,7 +1,8 @@
 import streamlit as st
 from logic import calculate_prediction
 from datetime import date
-
+import base64
+from pathlib import Path
 # -----------------------------------
 # 1. PAGE CONFIG
 # -----------------------------------
@@ -123,9 +124,9 @@ def increment_house(planet):
     st.session_state[f"{planet}_h"] = 1 if st.session_state[f"{planet}_h"] >= 12 else st.session_state[f"{planet}_h"] + 1
 
 # -----------------------------------
-# 4. NAVIGATION TABS
+# 4. NAVIGATION TABS (Added Guide Tab)
 # -----------------------------------
-tab_predict, tab_about = st.tabs(["✨ Prediction", "📜 About the Journey"])
+tab_predict, tab_guide, tab_about = st.tabs(["✨ Prediction", "📖 User Guide", "📜 About the Journey"])
 
 with tab_predict:
     st.markdown("<div class='main-title'>✨ Shubh Vivaah ✨</div>", unsafe_allow_html=True)
@@ -196,6 +197,75 @@ with tab_predict:
         else:
             st.warning("The divine timing is still unfolding. Try adjusting the planetary houses.")
 
+
+# --- TAB 2: THE USER GUIDE ---
+with tab_guide:
+    # 1. Convert your local image to a Base64 string safely
+    img_path = "kundali_guide.png"
+    img_base64 = ""
+    
+    if Path(img_path).exists():
+        with open(img_path, "rb") as image_file:
+            encoded_string = base64.b64encode(image_file.read()).decode()
+            img_base64 = f"data:image/png;base64,{encoded_string}"
+    
+    # 2. Render everything inside a single, seamless HTML container
+    guide_html = (
+        '<div class="result-box" style="text-align: left; background-color: #ffffff; border: 3px double #d4af37; border-radius: 40px; padding: 10px 0;">'
+        '<h2 style="color: #800000; font-family: Georgia, serif; text-align: center; margin-bottom: 20px;">📖 How to Find Your Planetary Houses</h2>'
+        '<hr style="border-top: 1px solid #eee; margin-bottom: 20px;">'
+        
+        '<div style="padding: 0 20px;">'
+        '<p style="color: #4b5563; font-size: 16px; line-height: 1.6;">'
+        'To get an accurate prediction, you need to check your <b>Lagna Kundali</b> (Birth Chart). '
+        'Follow these simple steps to find the house numbers for Venus, Jupiter, and Saturn:</p>'
+        
+        '<h3 style="color: #b8860b; font-family: Georgia, serif; font-size: 20px; margin-top: 20px;">1. Understanding the House Numbers</h3>'
+        '<p style="color: #4b5563; font-size: 16px; line-height: 1.6;">'
+        'In a traditional North Indian Kundali, the layout positions are fixed. '
+        '<b>The top-middle diamond is always the 1st House.</b> From there, move <b>counter-clockwise</b> to count houses 2 through 12, exactly as shown in the reference map below:</p>'
+    )
+
+    # Inject the image dynamically if the file exists, otherwise show a friendly warning inside the box
+    if img_base64:
+        guide_html += (
+            f'<div style="text-align: center; margin: 25px 0;">'
+            f'<img src="{img_base64}" style="max-width: 100%; max-height: 400px; object-fit: contain; border-radius: 10px; border: 1px solid #fad0c4; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">'
+            f'<p style="color: #9ca3af; font-size: 13px; margin-top: 8px; font-style: italic;">Reference Map: North Indian Kundali House Positions (1-12)</p>'
+            f'</div>'
+        )
+    else:
+        guide_html += (
+            '<div style="background-color: #fff5f5; border: 1px dashed #e53e3e; padding: 15px; text-align: center; border-radius: 10px; margin: 25px 0; color: #c53030;">'
+            '⚠️ <b>Image asset missing:</b> Please upload "kundali_guide.png" to your main GitHub folder!</div>'
+        )
+
+    guide_html += (
+        '<div style="background-color: #fffaf0; border: 1px dashed #b8860b; padding: 15px; text-align: center; border-radius: 10px; margin-bottom: 25px; font-style: italic; color: #800000;">'
+        '✨ Tip: Ignore the small numbers printed in the corners of your chart layout—those represent Zodiac Signs (Rashi). '
+        'Always count the physical layout diamonds and triangles starting from the top-center as House 1.</div>'
+        
+        '<h3 style="color: #b8860b; font-family: Georgia, serif; font-size: 20px;">2. Locate Your Key Planets</h3>'
+        '<p style="color: #4b5563; font-size: 16px; line-height: 1.6;">Look into the corresponding sections of your personal chart to locate these specific abbreviations:</p>'
+        '<ul style="color: #4b5563; line-height: 1.8; font-size: 16px; margin-left: 20px;">'
+        '<li><b style="color: #800000;">Venus:</b> Written as <b>Ve</b> or <b>Sk</b> (Sukra)</li>'
+        '<li><b style="color: #800000;">Jupiter:</b> Written as <b>Ju</b> or <b>Gu</b> (Guru)</li>'
+        '<li><b style="color: #800000;">Saturn:</b> Written as <b>Sa</b> or <b>Sh</b> (Shani)</li>'
+        '</ul>'
+        '<p style="color: #4b5563; font-size: 16px; line-height: 1.6;">Like in above chart, Venus is in 10th House, Jupiter is in 5th House and Saturn is in 11th House.</p>'
+        
+        
+        '<h3 style="color: #b8860b; font-family: Georgia, serif; font-size: 20px; margin-top: 25px;">3. Set and Reveal</h3>'
+        '<p style="color: #4b5563; font-size: 16px; line-height: 1.6;">'
+        'Once you note which house number each planet occupies on your chart, switch over to the <b>"✨ Prediction"</b> tab, match the values using the counters, and hit reveal!</p>'
+        '</div>'
+        
+        '</div>'
+    )
+    
+    st.markdown(guide_html, unsafe_allow_html=True)
+
+# --- TAB 3: THE ABOUT PAGE ---
 with tab_about:
     about_text = (
         '<div class="result-box" style="text-align: left; background-color: #ffffff; border: 3px double #d4af37;">'
@@ -225,6 +295,5 @@ with tab_about:
 
 st.markdown("---")
 st.markdown('<div style="text-align: center; color: #9ca3af; font-size: 12px;">'
-            '<p>© 2026 Shubh Vivaah Predictor | Vikash Kumar.</p>'
-            '</div>', 
+            '<p>© 2024 Shubh Vivaah Predictor. For entertainment purposes only.</p></div>', 
             unsafe_allow_html=True)
