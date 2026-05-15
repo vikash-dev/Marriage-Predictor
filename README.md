@@ -42,3 +42,8 @@ pip install -r requirements.txt
 ```powershell
 python main.py
 ```
+
+### 5. Web Version Available
+- If you do not want to fork or run the project locally, a public web version is available.
+- Visit: https://marriagepredictor.streamlit.app/
+- Future updates with Lagna Kundali integration may improve prediction accuracy further.
