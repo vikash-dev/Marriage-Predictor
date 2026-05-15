@@ -225,5 +225,5 @@ with tab_about:
 
 st.markdown("---")
 st.markdown('<div style="text-align: center; color: #9ca3af; font-size: 12px;">'
-            '<p>© 2024 Shubh Vivaah Predictor. For entertainment purposes only.</p></div>', 
+            '<p>© 2026 Shubh Vivaah Predictor. This application is based on traditional calculations and it is not always true. Life's journey is shaped by many stars; always follow your heart. </p></div>', 
             unsafe_allow_html=True)
