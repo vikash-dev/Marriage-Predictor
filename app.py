@@ -225,6 +225,6 @@ with tab_about:
 
 st.markdown("---")
 st.markdown('<div style="text-align: center; color: #9ca3af; font-size: 12px;">'
-            '<p>© 2026 Shubh Vivaah Predictor.</p>'
+            '<p>© 2026 Shubh Vivaah Predictor | Vikash Kumar.</p>'
             '</div>', 
             unsafe_allow_html=True)
